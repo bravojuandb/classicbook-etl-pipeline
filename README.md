@@ -1,18 +1,23 @@
-# 📚 ETL Pipeline Project — *The Imitation of Christ*  (IN PROGRESS)
+# Classic Book ETL Pipeline – *The Imitation of Christ*
 
-This is my personal ETL project for April, where I'm building a full **local data pipeline** using Python and PostgreSQL. The source material is the classic text *De Imitatione Christi* (*The Imitation of Christ*) in Latin and English.
+This project is a hands-on ETL (Extract, Transform, Load) pipeline built around a classic text: *The Imitation of Christ* by Thomas à Kempis.
 
+It demonstrates how to:
+
+- **Extract** both the Latin and English versions from online sources  
+- **Transform** the texts into a clean, structured bilingual dataset  
+- **Load** the data into a PostgreSQL database for further querying and analysis
+
+The entire pipeline is written in Python, following good data engineering practices:
+- Organized folder structure
+- Progressive script development
+- Clear Git commits and daily logs
+- GitHub-hosted, self-contained, and reproducible
+
+Designed as a foundational project to learn core data engineering workflows using meaningful content.
 ---
 
-## 🧠 Project Goals
-
-- Practice the full ETL process from scratch
-- Use meaningful data to stay motivated and consistent
-- Document everything for learning and portfolio purposes
-
----
-
-## 🗂️ Project Structure
+## Project Structure
 
 - `classicbook_etl_pipeline/`
   - `extract/`
@@ -39,24 +44,24 @@ This is my personal ETL project for April, where I'm building a full **local dat
 
 > Source: [The Latin Library](https://www.thelatinlibrary.com/kempis.html)
 
-- ✅ Fetched index page  
-- ✅ Found 4 book links (Liber I–IV)  
-- ✅ Extracted and cleaned Latin paragraphs  
-- ✅ Saved to `raw_data/latin_kempis.txt`  
+- Fetched index page  
+- Found 4 book links (Liber I–IV)  
+- Extracted and cleaned Latin paragraphs  
+- Saved to `raw_data/latin_kempis.txt`  
 
 📄 Script: `extract_latin.py`  
 📦 Output: `latin_kempis.txt`
 
 ---
 
-### 🧪 English Text *(coming up)*
+### English Text *(coming up)*
 
-> Source: [Christian Classics Ethereal Library (CCEL)](https://www.ccel.org/ccel/kempis/imitation)
+> Source: [Project Gutemberg](https://www.gutenberg.org/cache/epub/1653/pg1653-images.html)
 
-- [ ] Write a script to extract English version of the text  
-- [X] Make it more portable and sharable using os.getenv()
-- [ ] Clean and format content  
-- [ ] Save to `raw_data/english_kempis.txt`  
+- Write a script to extract English version of the text  
+- Make it more portable and sharable using os.getenv()
+- Clean and format content  
+- Save to `raw_data/english_kempis.txt`  
 
 📄 Script: `extract_english.py`  
 📦 Output: `english_kempis.txt`
@@ -73,7 +78,7 @@ This is my personal ETL project for April, where I'm building a full **local dat
 
 ---
 
-## 🗄️ Phase 3 — Load (Coming Soon)
+## Phase 3 — Load (Coming Soon)
 
 - [ ] Design SQL schema for bilingual text
 - [ ] Write `create_tables.sql`
@@ -81,7 +86,7 @@ This is my personal ETL project for April, where I'm building a full **local dat
 
 ---
 
-## 🛠️ Tools Used
+## Tools Used
 
 - `requests` — HTTP requests
 - `BeautifulSoup` — HTML parsing
@@ -91,7 +96,7 @@ This is my personal ETL project for April, where I'm building a full **local dat
 
 ---
 
-## 🧾 Requirements
+## Requirements
 
 To install dependencies:
 
