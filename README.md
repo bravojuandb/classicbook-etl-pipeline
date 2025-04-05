@@ -54,6 +54,7 @@ classicbook_etl_pipeline/
 > Source: [Christian Classics Ethereal Library (CCEL)](https://www.ccel.org/ccel/kempis/imitation)
 
 - [ ] Write a script to extract English version of the text  
+- [X] Make it more portable and sharable using os.getenv()
 - [ ] Clean and format content  
 - [ ] Save to `raw_data/english_kempis.txt`  
 
