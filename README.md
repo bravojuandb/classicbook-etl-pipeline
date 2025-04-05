@@ -15,21 +15,21 @@ This is my personal ETL project for April, where I'm building a full **local dat
 ## 🗂️ Project Structure
 
 classicbook_etl_pipeline/
-├── extract/
+├── extract/                    # Scripts for downloading and processing text
 │   ├── extract_latin.py        # Latin text scraper
-│   ├── extract_english.py      # English text scraper 
+│   ├── extract_english.py      # English text scraper
 │   └── combine_texts.py        # Merge Latin + English into bilingual TSV
-├── raw_data/
+├── raw_data/                   # Raw downloaded texts
 │   ├── latin_kempis.txt
 │   └── english_kempis.txt
-├── processed_data/
+├── processed_data/             # Clean, aligned bilingual output
 │   └── kempis_bilingual.tsv
-├── sql/
-│   └── create_tables.sql       # DB schema + sample queries
-├── logs/
-│   └── YYYY-MM-DD.md           # Daily logs and reflections
+├── sql/                        # SQL schema and sample queries
+│   └── create_tables.sql
+├── logs/                       # Daily logs and reflections
+│   └── 2025-04-05.md
 ├── requirements.txt            # Python dependencies
-└── README.md                   
+└── README.md                   # Project overview
 
 ---
 
