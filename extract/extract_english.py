@@ -1,3 +1,19 @@
+"""
+extract_english.py
+
+This script downloads the English version of *The Imitation of Christ* from Project Gutenberg,
+extracts the main text content, and saves it as one paragraph per line in:
+    raw_data/english_kempis.txt
+
+- Source: https://www.gutenberg.org/cache/epub/1653/pg1653-images.html
+- Total extracted paragraphs: 903
+- Output format: Plain text, UTF-8 encoded
+
+Usage:
+    Run this script from the project root with:
+        python extract/extract_english.py
+"""
+
 import requests
 from bs4 import BeautifulSoup
 import os
