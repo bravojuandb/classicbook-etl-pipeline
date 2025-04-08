@@ -1,3 +1,24 @@
+"""
+extract_latin.py
+
+This script extracts the Latin text of *The Imitation of Christ* from The Latin Library:
+    https://www.thelatinlibrary.com/kempis.html
+
+It performs the following steps:
+1. Fetches the main index page containing links to the four books.
+2. Parses and collects all paragraph texts from each linked subpage.
+3. Cleans the extracted content by removing empty lines and boilerplate text.
+4. Saves the final result as one paragraph per block to:
+       raw_data/latin_kempis.txt
+
+- Total expected paragraphs: ~674
+- Output encoding: UTF-8
+- Output format: plain text, double newlines between paragraphs
+
+Usage:
+    Run this script from the project root directory:
+        python extract/extract_latin.py
+"""
 
 # Import necesary libraries
 import requests
