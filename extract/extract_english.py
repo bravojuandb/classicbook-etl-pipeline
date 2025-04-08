@@ -5,11 +5,8 @@ import os
 # Define the URL of the Gutenberg HTML version
 URL = "https://www.gutenberg.org/cache/epub/1653/pg1653-images.html"
 
-
-# Paths (cross-platform and sharable using os.getenv)
-
 # Set up project paths (with fallback to default if no environment variable is set)
-default_root = os.path.expanduser("~/GitHubRepos/classicbook_etl_pipeline")
+default_root = os.path.expanduser("~/GitHubRepos/classicbook-etl-pipeline")
 PROJECT_ROOT = os.getenv("PROJECT_ROOT", default_root)
 
 # Define the raw_data directory and final output file path
@@ -29,12 +26,13 @@ def ensure_folder_exists(path):
         print(f"Folder already exists: {path}")
 
 # Fetch HTML content
+
 def fetch_html(url):
     """
     Sends a GET request to the specified URL and returns the HTML content.
     If the request fails (non-200 status), it raises an exception.
     """
-    print(f"Fetching HTML contetnt from: {url}")
+    print(f"Fetching HTML content from: {url}")
     response = requests.get(url)
     response.encoding = "utf-8"
 
@@ -44,8 +42,7 @@ def fetch_html(url):
     print("HTML successfully fetched.")
     return response.text
 
-
-# Extract clena paragraphs
+# Extract clean paragraphs
 
 def extract_text_from_html(html):
     """
@@ -75,6 +72,26 @@ def extract_text_from_html(html):
 
 # Save content to .txt file
 
+def save_to_file(paragraphs, output_path):
+    """
+    Saves a list of text paragraphs to a file, one paragraph per line.
+    Ensures UTF-8 encoding for compatibility.
+    """
+    with open(output_path, "w", encoding="utf-8") as f:
+        for paragraph in paragraphs:
+            f.write(paragraph + "\n")
+    print(f"Saved {len(paragraphs)} paragraphs to {output_path}")
+
 # Main ETL workflow
 
+def main():
+    ensure_folder_exists(RAW_DATA_DIR)
+    html = fetch_html(URL)
+    paragraphs = extract_text_from_html(html)
+    save_to_file(paragraphs, OUTPUT_FILE)
+
 # Run the script
+
+if __name__ == "__main__":
+    main()
+
