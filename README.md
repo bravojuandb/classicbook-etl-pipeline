@@ -1,23 +1,45 @@
-# Classic Book ETL Pipeline – *The Imitation of Christ*
+# Classic Book ETL Pipeline — *The Imitation of Christ*
+![Status](https://img.shields.io/badge/status-in_progress-yellow)
 
-This project is a hands-on ETL (Extract, Transform, Load) pipeline built around a classic text: *The Imitation of Christ* by Thomas à Kempis.
+This is a handcrafted end-to-end data engineering project built around *The Imitation of Christ*, a classical spiritual work by Thomas à Kempis. The goal is to demonstrate a complete Extract–Transform–Load (ETL) pipeline using Python and PostgreSQL, while also honoring the depth of the source text.
 
-It demonstrates how to:
+## Project Overview
 
-- **Extract** both the Latin and English versions from online sources  
-- **Transform** the texts into a clean, structured bilingual dataset  
-- **Load** the data into a PostgreSQL database for further querying and analysis
+- **Goal**: To build a clean, bilingual paragraph-aligned dataset of *The Imitation of Christ* in Latin and English.
+- **Tech Stack**: Python, VS Code, GitHub Codespaces, PostgreSQL, SQL.
+- **ETL Structure**: 
+  - `extract/`: Web scraping and raw data preparation
+  - `processed_data/`: Aligned bilingual data in TSV format
+  - `sql/`: SQL table creation and sample queries
+  - `logs/`: Daily dev journal (learning in public)
+  - `README.md`: You are here.
 
-The entire pipeline is written in Python, following good data engineering practices:
-- Organized folder structure
-- Progressive script development
-- Clear Git commits and daily logs
-- GitHub-hosted, self-contained, and reproducible
+## Motivation
 
-Designed as a foundational project to learn core data engineering workflows using meaningful content.
----
+As someone transitioning into data engineering, I wanted to build a pipeline that was technically real, but also personally meaningful.
 
-## Project Structure
+Instead of using pre-cleaned datasets, I chose to work with a text that matters to me — spiritually and intellectually — to simulate the messiness of real-world data and to stay motivated throughout the process.
+
+I am manually aligning over 600 Latin paragraphs with their English counterparts to ensure semantic integrity. This slow, careful work reflects the discipline required in data engineering — where structure, clarity, and trustworthiness matter more than volume.
+
+## ETL Breakdown
+
+### 1. Extraction
+- Scraped Latin text from The Latin Library
+- Scraped English text from Christian Classics Ethereal Library
+- Cleaned, stripped, and stored paragraphs in plain text files
+
+### 2. Transformation
+- Manual alignment of Latin and English paragraphs
+- Converted into a tab-separated values file (`kempis_bilingual.tsv`)
+- Ensured consistent paragraph IDs and clean formatting
+
+### 3. Load
+- Designed and created PostgreSQL schema
+- Loaded data using SQL scripts via pgAdmin
+- Ready for complex queries, joins, and NLP tasks
+
+## File Structure
 
 - `classicbook_etl_pipeline/`
   - `extract/`
@@ -32,73 +54,30 @@ Designed as a foundational project to learn core data engineering workflows usin
   - `sql/`
     - `create_tables.sql`
   - `logs/`
-    - `2025-04-05.md`
+    - `Daily-log.md`
   - `requirements.txt`
   - `README.md`
 
----
 
-## 🔍 Phase 1 — Extract
+## Reflections
 
-### 🧪 Latin Text
+<details>
+  <summary>“Scientia est ordinatio rerum in ratione.”</summary>
 
-> Source: [The Latin Library](https://www.thelatinlibrary.com/kempis.html)
+  “Knowledge is the ordering of things according to reason.”
+</details>
 
-- Fetched index page  
-- Found 4 book links (Liber I–IV)  
-- Extracted and cleaned Latin paragraphs  
-- Saved to `raw_data/latin_kempis.txt`  
 
-📄 Script: `extract_latin.py`  
-📦 Output: `latin_kempis.txt`
+- This project is teaching me more than just Python and PostgreSQL. It teaches how much care it takes to bring structure to unstructured information — and how data work, like life itself, often requires quiet discipline and long attention.
 
----
+## Next Steps, for future projects
 
-### English Text *(coming up)*
+- Automate bilingual alignment with basic heuristics
+- Load dataset into a cloud-based PostgreSQL instance
+- Explore using Airflow or dbt for pipeline orchestration
+- Extend to other classic works (e.g., Saint Augustine´s works)
 
-> Source: [Project Gutemberg](https://www.gutenberg.org/cache/epub/1653/pg1653-images.html)
+## Author
 
-- Write a script to extract English version of the text  
-- Make it more portable and sharable using os.getenv()
-- Clean and format content  
-- Save to `raw_data/english_kempis.txt`  
-
-📄 Script: `extract_english.py`  
-📦 Output: `english_kempis.txt`
-
----
-
-## 🔄 Phase 2 — Transform (Coming Soon)
-
-- [ ] Align Latin and English paragraphs
-- [ ] Save aligned text as `kempis_bilingual.tsv`
-
-📄 Script: `combine_texts.py`  
-📦 Output: `processed_data/kempis_bilingual.tsv`
-
----
-
-## Phase 3 — Load (Coming Soon)
-
-- [ ] Design SQL schema for bilingual text
-- [ ] Write `create_tables.sql`
-- [ ] Load `.tsv` into PostgreSQL via `psql` or Python
-
----
-
-## Tools Used
-
-- `requests` — HTTP requests
-- `BeautifulSoup` — HTML parsing
-- `os` — file handling
-- `utf-8` encoding — preserve Latin characters
-- PostgreSQL — relational database
-
----
-
-## Requirements
-
-To install dependencies:
-
-```bash
-pip install -r requirements.txt
+Juan D. Bravo — aspiring Data Engineer with a background in classical studies,
+now building a modern skillset with ancient roots.
