@@ -49,7 +49,14 @@ def fetch_html(url):
     If the request fails (non-200 status), it raises an exception.
     """
     print(f"Fetching HTML content from: {url}")
-    response = requests.get(url)
+
+
+    # This bypasses SSL verification for Gutenberg request
+
+    import warnings
+    warnings.filterwarnings("ignore")  # Suppress the SSL warning
+    response = requests.get(url, verify=False)
+    
     response.encoding = "utf-8"
 
     if response.status_code != 200:
