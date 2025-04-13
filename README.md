@@ -8,7 +8,7 @@ This is a handcrafted end-to-end data engineering project built around *The Imit
 - **Goal**: To build a clean, bilingual paragraph-aligned dataset of *The Imitation of Christ* in Latin and English.
 - **Tech Stack**: Python, VS Code, GitHub Codespaces, PostgreSQL, SQL.
 - **ETL Structure**: 
-  - `extract/`: Web scraping and raw data preparation
+  - `extract/`: Web scraping and raw data preparation for Latin and English raw texts
   - `processed_data/`: Aligned bilingual data in TSV format
   - `sql/`: SQL table creation and sample queries
   - `logs/`: Daily dev journal (learning in public)
