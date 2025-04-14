@@ -30,9 +30,10 @@ I am manually aligning over 600 Latin paragraphs with their English counterparts
 - Cleaned, stripped, and stored paragraphs in plain text files
 
 ### 2. Transformation
-- Manual alignment of Latin and English paragraphs
-- Converted into a tab-separated values file (`kempis_bilingual.tsv`)
-- Ensured consistent paragraph IDs and clean formatting
+- Aligned each book of The Imitation of Christ manually, treating them as separate units
+- Latin and English paragraphs were carefully reviewed and matched to ensure semantic fidelity
+- Prepared each book for loading into SQL
+- Each book is saved as an individual TSV file (e.g., book1_aligned.tsv)
 
 ### 3. Load
 - Designed and created PostgreSQL schema
@@ -41,22 +42,36 @@ I am manually aligning over 600 Latin paragraphs with their English counterparts
 
 ## File Structure
 
-- `classicbook_etl_pipeline/`
-  - `extract/`
-    - `extract_latin.py`
-    - `extract_english.py`
-    - `combine_texts.py`
-  - `raw_data/`
-    - `latin_kempis.txt`
-    - `english_kempis.txt`
-  - `processed_data/`
-    - `kempis_bilingual.tsv`
-  - `sql/`
-    - `create_tables.sql`
-  - `logs/`
-    - `Daily-log.md`
-  - `requirements.txt`
-  - `README.md`
+classicbook-etl-pipeline/
+   - README.md
+   - requirements.txt
+
+   - extract/                  # 1. EXTRACT — raw text scripts
+     - extract_latin.py
+     - extract_english.py
+
+   - raw_data/                 # Extracted, untouched texts
+     - latin_kempis.txt
+     - english_kempis.txt
+ 
+   - transform/                # 2. TRANSFORM — cleaning & alignment scripts
+     - clean_aligned_books.py
+     -  ...
+ 
+   - processed_data/           # Outputs of the transformation phase
+     - manual_alignment/          # Hand-aligned, uncleaned TSVs
+     - cleaned_alignment/         # Cleaned TSVs (ready for SQL load)
+ 
+   - sql/                      # 3. LOAD — PostgreSQL schema & queries
+     - create_tables.sql
+
+   - tools/                    # Helper scripts (e.g., ID generators)
+     - generate_latin_alignment_csv.py
+
+   - logs/                     # Learning journal
+     - Daily-log.md
+
+   - docs/                     # Optional design notes / schema ideas
 
 
 ## Reflections
@@ -68,7 +83,7 @@ I am manually aligning over 600 Latin paragraphs with their English counterparts
 </details>
 
 
-- This project is teaching me more than just Python and PostgreSQL. It teaches how much care it takes to bring structure to unstructured information — and how data work, like life itself, often requires quiet discipline and long attention.
+- “This slow, careful work reflects the discipline required in data engineering — where structure, clarity, and trustworthiness matter more than volume.”
 
 ## Next Steps, for future projects
 
