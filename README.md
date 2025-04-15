@@ -73,6 +73,14 @@ classicbook-etl-pipeline/
 
    - docs/                     # Optional design notes / schema ideas
 
+## Principles
+
+- Idempotency: 	Running the script twice doesn’t corrupt or duplicate data
+- Logging: Print logs to console or file: "Extracted N texts", "Loaded X rows"
+- Error handling:	Catch and log errors in extraction and loading
+- CLI executable:	python run_pipeline.py runs the full ETL
+- Modular design:	Separate extract, transform, load files
+
 
 ## Reflections
 
