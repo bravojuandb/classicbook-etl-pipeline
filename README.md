@@ -33,7 +33,13 @@ I am manually aligning over 600 Latin paragraphs with their English counterparts
 - Aligned each book of The Imitation of Christ manually, treating them as separate units
 - Latin and English paragraphs were carefully reviewed and matched to ensure semantic fidelity
 - Prepared each book for loading into SQL
-- Each book is saved as an individual TSV file (e.g., book1_aligned.tsv)
+- Each book is saved as an individual TSV file 
+- Each aligned book is then cleaned using a dedicated Python script to prepare for SQL insertion
+
+### ⚠️ Manual Alignment Phase
+
+The bilingual alignment of *The Imitation of Christ* (Latin and English texts) was performed **manually** to ensure linguistic accuracy. This decision was intentional, as automated alignment tools often fail to capture the nuanced structure and meaning of spiritual texts written in Latin and their corresponding English translations.
+These files were aligned by paragraph number and matched carefully to preserve coherence across both languages.
 
 ### 3. Load
 - Designed and created PostgreSQL schema
