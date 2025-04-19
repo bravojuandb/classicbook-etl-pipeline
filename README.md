@@ -92,11 +92,6 @@ classicbook-etl-pipeline/
 ├── requirements.txt
 ├── scripts/
 │   ├── archive/
-│   │   ├── clean_bookI.py
-│   │   ├── clean_bookII.py
-│   │   ├── clean_bookIII.py
-│   │   ├── clean_bookIV.py
-│   │   └── README.md
 │   ├── extract/
 │   │   ├── extract_english.py
 │   │   ├── extract_latin.py
