@@ -6,7 +6,7 @@ from 'The Imitation of Christ', each stored as a parallel Latin-English .tsv fil
 
 The script also removes the prefix clutter (Cap. 5., 3., CHAPTER, )
 
-Also creates 5 more columns. Giving as a result a total of 9 colums:
+The script also creates 5 aditional metadata columns. Giving a final structure of 9 colums:
 
 - id 
 - book 
@@ -19,14 +19,14 @@ Also creates 5 more columns. Giving as a result a total of 9 colums:
 - english_word_count
 
 Steps:
-1. Define paths and book mapping.
-2. Load each aligned book file using a reusable function.
-3. Clean text data: strip whitespace and normalize spacing.
-4. Add a metadata column: 'book' (Book I, II, III, IV).
-5. Concatenate all cleaned books into one DataFrame.
+1. Define paths and book mappings.
+2. Load each aligned book file using a function.
+3. Clean Latin and English texts (whitespaces, Cap-Chapter, 2. etc)
+4. Add a metadata columns, and include word_count columns.
+5. Combine all cleaned books into one DataFrame.
 6. Add a global 'id' column to uniquely identify each row.
-7. Save the result as 'imitation_cleaned.tsv' for SQL-ready loading.
-clean_imitation.py
+7. Save the result as 'imitation_cleaned.tsv', ready for SQL loading.
+
 
 """
 import pandas as pd
