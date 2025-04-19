@@ -1,8 +1,22 @@
 """
 clean_imitation.py
 
-This script performs the data cleaning and combination of four aligned books 
+This script combines four manually aligned books 
 from 'The Imitation of Christ', each stored as a parallel Latin-English .tsv file.
+
+The script also removes the prefix clutter (Cap. 5., 3., CHAPTER, )
+
+Also creates 5 more columns. Giving as a result a total of 9 colums:
+
+- id 
+- book 
+- book_number 
+- chapter_number 
+- chapter_id 
+- latin_text 
+- english_text 
+- latin_word_count 
+- english_word_count
 
 Steps:
 1. Define paths and book mapping.
@@ -14,22 +28,17 @@ Steps:
 7. Save the result as 'imitation_cleaned.tsv' for SQL-ready loading.
 clean_imitation.py
 
-Final unified script to clean all four aligned books of
-'The Imitation of Christ' and output a single TSV file.
 """
-
 import pandas as pd
+import re
 from pathlib import Path
 
-# Show the script's path (optional, useful for debugging)
-print(__file__)
-
-# Define base paths
+# === FILE PATHS ===
 BASE_DIR = Path(__file__).resolve().parents[2]
 INPUT_DIR = BASE_DIR / 'data' / 'aligned'
 OUTPUT_PATH = BASE_DIR / 'data' / 'cleaned' / 'imitation_cleaned.tsv'
 
-# Map numeric book ID to full book name
+# === BOOK NAMES ===
 BOOK_NAMES = {
     1: "Book I",
     2: "Book II",
@@ -37,51 +46,80 @@ BOOK_NAMES = {
     4: "Book IV"
 }
 
-# Function to clean whitespace and normalize spacing in a text column
+# === TEXT CLEANER ===
 def clean_text_column(series: pd.Series) -> pd.Series:
-    return series.astype(str).str.strip().str.replace(r'\s+', ' ', regex=True)
+    def clean_line(text):
+        text = str(text).strip()
 
-# Function to load, clean, and label a specific book
-def clean_and_load_book (book_number: int) -> pd.DataFrame:
+        # Normalize whitespace
+        text = re.sub(r'\s+', ' ', text)
+
+        # Remove chapter/section markers (case-insensitive)
+        text = re.sub(r'^(cap\.|chapter)\s*\d*\.*\s*', '', text, flags=re.IGNORECASE)
+
+        # Remove number prefixes like "1." or "3.2.1"
+        text = re.sub(r'^\d+\.\s*', '', text)
+
+        # Remove dots before letters: ".quod", ".philly" → "quod", "philly"
+        text = re.sub(r'^\.\s*', '', text)
+
+        return text.strip()
+
+    return series.astype(str).apply(clean_line)
+
+# === WORD COUNTER ===
+def word_count(text):
+    return len(re.findall(r'\b\w+\b', str(text)))
+
+# === LOAD AND ENRICH BOOK DATA ===
+def clean_and_load_book(book_number: int) -> pd.DataFrame:
     book_label = BOOK_NAMES[book_number]
     input_file = INPUT_DIR / f'book{book_number}_aligned.tsv'
-    if not input_file.exists():
-        print(f"File not found: {input_file}")
-        return None
-    
-    # Load the TSV file and assign column names
-    df = pd.read_csv(input_file, sep='\t', names=["latin_text", "english_text"], encoding='utf-8' )
 
-    # Clean both columns
+    if not input_file.exists():
+        print(f"❌ File not found: {input_file}")
+        return None
+
+    # Load TSV with two unnamed columns
+    df = pd.read_csv(input_file, sep='\t', names=["latin_text", "english_text"], encoding='utf-8')
+
+    # Clean both text columns
     df["latin_text"] = clean_text_column(df["latin_text"])
     df["english_text"] = clean_text_column(df["english_text"])
 
-    # Add book label column
+    # Add metadata columns
     df.insert(0, "book", book_label)
+    df.insert(1, "book_number", book_number)
+    df.insert(2, "chapter_number", range(1, len(df) + 1))
+
+    roman = ["I", "II", "III", "IV"][book_number - 1]
+    df["chapter_id"] = roman + '.' + df["chapter_number"].astype(str)
+
+    # Add word counts
+    df["latin_word_count"] = df["latin_text"].apply(word_count)
+    df["english_word_count"] = df["english_text"].apply(word_count)
 
     return df
 
-# Main execution block
+# === MAIN PIPELINE ===
 if __name__ == "__main__":
-
     all_books = []
 
-    # Loop through books I–IV, load and clean each
-    for book_number in range(1,5):
+    for book_number in range(1, 5):
         df = clean_and_load_book(book_number)
         if df is not None:
             all_books.append(df)
 
-    # Combine all cleaned DataFrames
+    # Combine all books
     combined_df = pd.concat(all_books, ignore_index=True)
 
-    # Add a unique row ID (starts at 1)
+    # Add global row ID
     combined_df.insert(0, "id", range(1, len(combined_df) + 1))
 
-    # Make sure output folder exists
+    # Ensure output directory exists
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-    # Save as TSV file (tab-separated, SQL-ready)
-    combined_df.to_csv(OUTPUT_PATH, sep="\t", index=False, encoding="utf-8")
+    # Export to TSV
+    combined_df.to_csv(OUTPUT_PATH, sep='\t', index=False, encoding='utf-8')
 
-    print(f"\n Combined file saved to: {OUTPUT_PATH}")
+    print(f"\n✅ Clean enriched file saved to: {OUTPUT_PATH}")
