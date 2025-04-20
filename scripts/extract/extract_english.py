@@ -16,27 +16,29 @@ Usage:
 
 import requests
 from bs4 import BeautifulSoup
+from pathlib import Path
 import os
+import warnings
 
 # Define the URL of the Gutenberg HTML version
 URL = "https://www.gutenberg.org/cache/epub/1653/pg1653-images.html"
 
 # Set up project paths (with fallback to default if no environment variable is set)
-default_root = os.path.expanduser("~/GitHubRepos/classicbook-etl-pipeline")
-PROJECT_ROOT = os.getenv("PROJECT_ROOT", default_root)
+default_root = Path.home() / "GitHubRepos" / "classicbook-etl-pipeline"
+PROJECT_ROOT = Path(os.getenv("PROJECT_ROOT", default_root))
 
 # Define the raw_data directory and final output file path
-RAW_DATA_DIR = os.path.join(PROJECT_ROOT, "raw_data")
-OUTPUT_FILE = os.path.join(RAW_DATA_DIR, "english_kempis.txt")
+RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
+OUTPUT_FILE = RAW_DATA_DIR / "english_kempis.txt"
 
 # Ensure the raw_data directory exists
-def ensure_folder_exists(path):
+def ensure_folder_exists(path: Path):
     """
     Checks if the specified folder exists. If not, it creates it.
     This ensures we never run into file-saving issues later.
     """
-    if not os.path.exists(path):
-        os.makedirs(path)
+    if not path.exists():
+        path.mkdir(parents=True)
         print(f"Folder created: {path}")
     else:
         print(f"Folder already exists: {path}")
@@ -100,7 +102,7 @@ def save_to_file(paragraphs, output_path):
     Saves a list of text paragraphs to a file, one paragraph per line.
     Ensures UTF-8 encoding for compatibility.
     """
-    with open(output_path, "w", encoding="utf-8") as f:
+    with output_path.open("w", encoding="utf-8") as f:
         for paragraph in paragraphs:
             f.write(paragraph + "\n")
     print(f"Saved {len(paragraphs)} paragraphs to {output_path}")
