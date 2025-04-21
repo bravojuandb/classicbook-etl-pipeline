@@ -85,10 +85,25 @@ classicbook-etl-pipeline/
 │   ├── extract/         # Text scraping scripts
 │   ├── transform/       # Cleaning, alignment, formatting
 │   └── README.md        # Explains how to use the scripts
+├── sql/                 # Contains final SQL schema and example queries
 ├── tools/
 ├── venv/
 └── README.md            # Project overview and instructions
 ```
+##  Project Result
+
+The goal of this ETL pipeline has been achieved. The data is fully aligned, loaded into PostgreSQL, and now queryable.
+
+You can explore the final SQL schema, queries, and analysis in:
+
+[`sql/sample_queries.md`](./sql/sample_queries.md)
+
+This includes:
+
+- Retrieving the Latin title of each book
+- Counting verses by book
+- Searching for keywords in Latin
+- Comparing word counts between Latin and English
 
 ## Reflections
 
