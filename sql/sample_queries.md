@@ -4,7 +4,7 @@ This document contains a set of queries executed on the `imitatio_christi` table
 
 ---
 
-## 1. 📘 Retrieving the Titles of Each Book in Latin
+## 1. 📘 Retrieving the Title of Each Book in Latin
 
 **Purpose**:  
 To preview the Latin titles of each book in *The Imitation of Christ*, ordered by book and chapter. 
@@ -22,7 +22,7 @@ ORDER BY book_number;
 ```
 
 **Screenshot**:  
-![First Verses](screenshots/query1_book_titles_latin.png)
+![Latin titles](screenshots/query1_book_titles_latin.png)
 
 ---
 

@@ -33,7 +33,7 @@ The table `imitation` contains aligned Latin and English paragraphs, enriched wi
 
 All executed queries are documented in [`sample_queries.md`](./sample_queries.md). These include:
 
-- Retrieving the Latin titles of each book
+- Retrieving the Latin title of each book
 - Counting verses by book
 - Searching for keywords in Latin
 - Comparing word counts between Latin and English
