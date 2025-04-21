@@ -6,7 +6,7 @@
 
 - This is my first data engineering project and the foundational stone of my career shift into the field. I selected this book for its familiarity and its clean structure — organized into Books, Chapters, and Paragraphs — which makes it ideal for creating an aligned, queryable bilingual dataset.
 
-![Status](https://img.shields.io/badge/status-in_progress-yellow)
+![Status](https://img.shields.io/badge/status-finished-brightgreen)
 
 ##  Problem Statement
 
@@ -118,3 +118,7 @@ This project was more than an academic or technical exercise — it was a spirit
 **Juan David Bravo**  
 Aspiring Data Engineer with a background in classical languages and philosophy.  
 Bridging ancient texts with modern data pipelines.
+
+---
+
+✅ **Status**: This project is now complete. The full ETL pipeline — from text extraction to SQL query analysis — has been successfully implemented and documented.
