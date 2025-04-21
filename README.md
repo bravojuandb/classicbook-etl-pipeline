@@ -1,112 +1,105 @@
 # Classic Book ETL Pipeline — *The Imitation of Christ*
+
+## 📖 Project Summary
+
+- A bilingual ETL pipeline that scrapes, cleans, and aligns Latin and English versions of *The Imitation of Christ*, storing the final dataset in a PostgreSQL database.
+
+- This is my first data engineering project and the foundational stone of my career shift into the field. I selected this book for its familiarity and its clean structure — organized into Books, Chapters, and Paragraphs — which makes it ideal for creating an aligned, queryable bilingual dataset.
+
 ![Status](https://img.shields.io/badge/status-in_progress-yellow)
 
-This is a handcrafted end-to-end data engineering project built around *The Imitation of Christ*, a classical spiritual work by Thomas à Kempis. The goal is to demonstrate a complete Extract–Transform–Load (ETL) pipeline using Python and PostgreSQL, while also honoring the depth of the source text.
+##  Problem Statement
 
-## Project Overview
+Most classic spiritual texts are available in multiple languages, but rarely are they presented in a format that allows **structured, bidirectional comparison** between the original and its translation. Scholars, students, and spiritually curious readers alike often want to ask:
 
-- **Goal**: To build a clean, bilingual paragraph-aligned dataset of *The Imitation of Christ* in Latin and English.
-- **Tech Stack**: Python, VS Code, GitHub Codespaces, PostgreSQL, SQL.
-- **ETL Structure**: 
-  - `extract/`: Web scraping and raw data preparation for Latin and English raw texts
-  - `processed_data/`: Aligned bilingual data in TSV format
-  - `sql/`: SQL table creation and sample queries
-  - `logs/`: Daily dev journal (learning in public)
-  - `README.md`: You are here.
+- “What is the Latin original of this English phrase?”
+- “How are certain key spiritual terms rendered across the text?”
+- “Is the paragraph structure preserved across languages?”
 
-## Motivation
+By creating a structured dataset, I'm aiming to answer these questions.
 
-As someone transitioning into data engineering, I wanted to build a pipeline that was technically real, but also personally meaningful.
+##  Vision and Goals
 
-Instead of using pre-cleaned datasets, I chose to work with a text that matters to me — spiritually and intellectually — to simulate the messiness of real-world data and to stay motivated throughout the process.
+This project creates a **clean, bilingual, paragraph-aligned dataset** of *The Imitation of Christ* in Latin and English — stored in a SQL database and fully queryable — to support:
 
-I am manually aligning over 600 Latin paragraphs with their English counterparts to ensure semantic integrity. This slow, careful work reflects the discipline required in data engineering — where structure, clarity, and trustworthiness matter more than volume.
+- **Semantic lookup**: Find the Latin equivalent of an English passage, and vice versa
+- **Translation analysis**: Explore how Latin words and themes are rendered in context
+- **Concept tracking**: Follow the use of key spiritual terms like *humilitas*, *gratia*, or *imitatio*
+- **Structural exploration**: Analyze the organization of the book — books, chapters, paragraphs, and words frequency
 
-## ETL Breakdown
+##  Project Scope and ETL Design
 
-### 1. Extraction
-- Scraped Latin text from The Latin Library
-- Scraped English text from Christian Classics Ethereal Library
-- Cleaned, stripped, and stored paragraphs in plain text files
+This ETL (Extract–Transform–Load) pipeline is written in Python and SQL. 
+It demonstrates data engineering principles applied to a real-world, text-centric domain.
 
-### 2. Transformation
-- Aligned each book of The Imitation of Christ manually, treating them as separate units
-- Latin and English paragraphs were carefully reviewed and matched to ensure semantic fidelity
-- Prepared each book for loading into SQL
-- Each book is saved as an individual TSV file 
-- Each aligned book is then cleaned using a dedicated Python script to prepare for SQL insertion
+### **1. Extract**
 
-### ⚠️ Manual Alignment Phase
+- Scraped the Latin text from *The Latin Library*
+- Scraped the English text from *Christian Classics Ethereal Library*
+- Stored raw texts in plain `.txt` files, preserving natural paragraph breaks
 
-The bilingual alignment of *The Imitation of Christ* (Latin and English texts) was performed **manually** to ensure linguistic accuracy. This decision was intentional, as automated alignment tools often fail to capture the nuanced structure and meaning of spiritual texts written in Latin and their corresponding English translations.
-These files were aligned by paragraph number and matched carefully to preserve coherence across both languages.
+### **2. Transform**
 
-### 3. Load
-- Designed and created PostgreSQL schema
-- Loaded data using SQL scripts via pgAdmin
-- Ready for complex queries, joins, and NLP tasks
+- Created a template for manual alignment, using `generate_latin_alignment_csv.py`
+- Manually aligned each book by paragraph (over 650 matches) using a structured TSV template.
+- Saved bilingual TSV files, 4 in total, one per book.
+- Automated cleaning using `clean_imitation.py`
+- Got a `imitation_cleaned.tsv`ready to load into PostgreSQL
 
-## File Structure
+### **3. Load**
 
+- Designed PostgreSQL schema 
+- Loaded cleaned bilingual `imitation_cleaned.tsv` composed of 9 columns
+
+
+## 📊 Example Use Cases
+
+Once the data is loaded, it becomes a powerful tool for:
+
+- Searching for Latin equivalents of English passages
+- Analyzing how a spiritual concept (e.g., “grace”) is expressed across the text
+- Creating datasets for Latin language learners or theology students
+- Exploring paragraph frequency, length, and structure across books
+- Generating dynamic flashcards and quizzes from the text
+
+## 🧱 Tech Stack
+
+- **Languages**: Python, SQL
+- **Tools**: VS Code, Git, GitHub, pgAdmin, PostgreSQL
+- **Practices**: Modular design, idempotent scripts, error logging, CLI-ready scripts
+
+## 📁 File Structure
+
+```
 classicbook-etl-pipeline/
-   - README.md
-   - requirements.txt
-
-   - extract/                  # 1. EXTRACT — raw text scripts
-     - extract_latin.py
-     - extract_english.py
-
-   - raw_data/                 # Extracted, untouched texts
-     - latin_kempis.txt
-     - english_kempis.txt
- 
-   - transform/                # 2. TRANSFORM — cleaning & alignment scripts
-     - clean_aligned_books.py
-     -  ...
- 
-   - processed_data/           # Outputs of the transformation phase
-     - manual_alignment/          # Hand-aligned, uncleaned TSVs
-     - cleaned_alignment/         # Cleaned TSVs (ready for SQL load)
- 
-   - sql/                      # 3. LOAD — PostgreSQL schema & queries
-     - create_tables.sql
-
-   - tools/                    # Helper scripts (e.g., ID generators)
-     - generate_latin_alignment_csv.py
-
-   - logs/                     # Learning journal
-     - Daily-log.md
-
-   - docs/                     # Optional design notes / schema ideas
-
-## Principles
-
-- Idempotency: 	Running the script twice doesn’t corrupt or duplicate data
-- Logging: Print logs to console or file: "Extracted N texts", "Loaded X rows"
-- Error handling:	Catch and log errors in extraction and loading
-- CLI executable:	python run_pipeline.py runs the full ETL
-- Modular design:	Separate extract, transform, load files
-
+├── data/                # Contains all source and processed text data
+│   ├── aligned/         # 4 manually aligned bilingual books (TSV)
+│   ├── cleaned/         # Final cleaned TSV file for DB loading
+│   ├── raw/             # Raw text files from Latin and English sources
+│   └── README.md        # Explains the data subfolders
+├── templates/           # Reusable template for manual alignment
+├── docs/                # Useful resources for Python
+├── logs/                # Relevant moments in the buiding process
+├── requirements.txt     # Python dependencies
+├── scripts/             # All ETL scripts, split by function
+│   ├── extract/         # Text scraping scripts
+│   ├── transform/       # Cleaning, alignment, formatting
+│   └── README.md        # Explains how to use the scripts
+├── tools/
+├── venv/
+└── README.md            # Project overview and instructions
+```
 
 ## Reflections
 
-<details>
-  <summary>“Scientia est ordinatio rerum in ratione.”</summary>
+> “Scientia est ordinatio rerum in ratione.”  
+> *Knowledge is the ordering of things according to reason.*
 
-  “Knowledge is the ordering of things according to reason.”
-</details>
+This project was more than an academic or technical exercise — it was a spiritual and intellectual labor. Manual alignment was slow, but meaningful. It mirrors the discipline of a data engineer: **trust in structure, reverence for clarity, and devotion to detail**.
 
-
-- “This slow, careful work reflects the discipline required in data engineering — where structure, clarity, and trustworthiness matter more than volume.”
-
-## Next Steps, for future projects
-
-- Automate bilingual alignment with basic heuristics
-- Load dataset into a cloud-based PostgreSQL instance
-- Explore using Airflow or dbt for pipeline orchestration
-- Extend to other classic works (e.g., Saint Augustine´s works)
 
 ## Author
 
-Juan D. Bravo — aspiring Data Engineer with a background in classical studies,
-now building a modern skillset with ancient roots.
+**Juan David Bravo**  
+Aspiring Data Engineer with a background in classical languages and philosophy.  
+Bridging ancient texts with modern data pipelines.

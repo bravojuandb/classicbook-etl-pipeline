@@ -23,14 +23,16 @@ Usage:
 # Import necesary libraries
 import requests
 from bs4 import BeautifulSoup
-import os  # Because I want to save the extracted text into a specific folder
+from pathlib import Path
 
 # Define the URL and Output File
 BASE_URL = "https://www.thelatinlibrary.com"  # Used to build sublinks later
 INDEX_URL = f"{BASE_URL}/kempis.html"  # Specific subpage to scrape
-PROJECT_ROOT = os.path.expanduser("~/GitHubRepos/classicbook_etl_pipeline")
-# So it works in Mac and Windows
-OUTPUT_FILE = os.path.join(PROJECT_ROOT, "raw_data", "latin_kempis.txt") 
+
+# Set up dynamic project path (portable)
+PROJECT_ROOT = Path.home() / "GitHubRepos" / "classicbook-etl-pipeline"
+RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
+OUTPUT_FILE = RAW_DATA_DIR / "latin_kempis.txt"
 
 # Fetch the index page (request and get the HTML code from the index page)
 response = requests.get(INDEX_URL)
@@ -88,10 +90,10 @@ print(f"\n Total paragraphs collected: {len(all_paragraphs)}")
 
 
 # Make sure the output folder exists
-os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)  
+RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 # Save extracted paragraphs into a file
-with open(OUTPUT_FILE, "w", encoding="utf-8") as f: 
+with OUTPUT_FILE.open("w", encoding="utf-8") as f: 
     for paragraph in all_paragraphs:
         f.write(paragraph + "\n\n")
 
