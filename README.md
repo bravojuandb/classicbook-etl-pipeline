@@ -72,22 +72,28 @@ Once the data is loaded, it becomes a powerful tool for:
 
 ```
 classicbook-etl-pipeline/
-├── data/                # Contains all source and processed text data
-│   ├── aligned/         # 4 manually aligned bilingual books (TSV)
-│   ├── cleaned/         # Final cleaned TSV file for DB loading
-│   ├── raw/             # Raw text files from Latin and English sources
-│   └── README.md        # Explains the data subfolders
-├── templates/           # Reusable template for manual alignment
-├── docs/                # Useful resources for Python
-├── logs/                # Relevant moments in the buiding process
+├── data/ 
+│   ├── raw/                   # Raw text files from Latin and English sources
+│   ├── aligned/               # 4 manually aligned bilingual books (TSV)
+│   ├── clean/                 # Final cleaned TSV file for DB loading
+│   ├── output/                    #   
+│   ├── manual_template.csv    # Template for manual alignment
+│   └── README.md
+├── extract/
+│   ├── extract_latin.py       # Extracts the Latin text
+│   ├── extract_english.py     # Extracts the English text
+│   └── README.md    
+├── transform/
+│   ├── manual_alignment.py     # Creates template for manual alignment
+│   ├── clean_imitation.py      # Cleans and enrich the CSV file
+│   └── README.md
+├── load/
+│   ├── load_to_sql.py          # Loads final CSV to sql
+│   └── README.md
+├── main/
+│   ├── run_pipeline.py         # Main runner: connects E → T → L
+│   └── README.md
 ├── requirements.txt     # Python dependencies
-├── scripts/             # All ETL scripts, split by function
-│   ├── extract/         # Text scraping scripts
-│   ├── transform/       # Cleaning, alignment, formatting
-│   └── README.md        # Explains how to use the scripts
-├── sql/                 # Contains final SQL schema and example queries
-├── tools/
-├── venv/
 └── README.md            # Project overview and instructions
 ```
 ##  Project Result
