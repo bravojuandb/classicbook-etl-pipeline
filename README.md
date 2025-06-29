@@ -7,7 +7,7 @@
 [![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=fff)](#)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%23316192?logo=postgresql&logoColor=white)](#)
 
-
+---
 
 ## Table of Contents
 - [Executive Summary](#executive-summary)
@@ -27,6 +27,7 @@
 
 - An end-to-end ETL pipeline that scrapes, cleans, and aligns Latin and English versions of the spirituañ classic book *The Imitation of Christ*, storing the final dataset in a PostgreSQL database.
 
+---
 
 ##  Problem & Motivation
 
@@ -36,14 +37,17 @@ Most classic spiritual texts are available in multiple languages, but rarely are
 - “How are certain key spiritual terms rendered across the text?”
 - “Is the paragraph structure preserved across languages?”
 
+---
 
 ## Data Structure & Raw Input
 
 About the structure of the Book, specially in Latin, which mantains the classic subchapter divission.
 
+---
 
 ##  Methodology & ETL Architecture
 
+![ETL Pipeline Diagram](docs/classicbook_etl_diagram.png)
 
 **1. Extract**
 
@@ -63,6 +67,8 @@ About the structure of the Book, specially in Latin, which mantains the classic 
 
 - Designed PostgreSQL schema 
 - Loaded cleaned bilingual `imitation_cleaned.tsv` composed of 9 columns
+
+---
 
 ## Repository Structure
 
@@ -102,14 +108,20 @@ classicbook-etl-pipeline/
 ├── README.md                       # Project overview and instructions
 └── LICENSE
 ```
+---
+
 ##  Tools & Technologies
 
 - **Languages**: Python, SQL
 - **Tools**: VS Code, Git, GitHub, pgAdmin, PostgreSQL
 
+---
+
 ## Setup & Execution
 
 Write...
+
+---
 
 ## Results & Sample Insights
 
@@ -143,7 +155,7 @@ This includes:
 - Searching for keywords in Latin
 - Comparing word counts between Latin and English
 
-
+---
 
 ## Conclusion & Future Improvements
 
@@ -152,11 +164,14 @@ This includes:
 
 This project was more than an academic or technical exercise — it was a spiritual and intellectual labor. Manual alignment was slow, but meaningful. It mirrors the discipline of a data engineer: **trust in structure, reverence for clarity, and devotion to detail**.
 
+---
 
 ## Appendix & Resources
 
 - Sources
 - Short article about the Book Itself
+
+---
 
 **Juan David Bravo**  
 Aspiring Data Engineer with a background in classical languages and philosophy.  
