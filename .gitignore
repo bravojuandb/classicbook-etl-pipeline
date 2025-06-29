@@ -1,3 +1,5 @@
 .DS_Store
 venv/
-**/.ipynb_checkpoints/archives/
+.ipynb_checkpoints/
+*checkpoint*.md
+archives/
