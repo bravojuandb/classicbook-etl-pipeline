@@ -3,6 +3,7 @@
 # Word Frequency Pipeline
 
 [![Refactoring](https://img.shields.io/badge/Refactoring-in_progress-orange)](#)
+
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](#)
 [![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=fff)](#)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%23316192?logo=postgresql&logoColor=white)](#)
@@ -41,32 +42,72 @@ Most classic spiritual texts are available in multiple languages, but rarely are
 
 ## Data Structure & Raw Input
 
-About the structure of the Book, specially in Latin, which mantains the classic subchapter divission.
+Info bout the book structure.
 
 ---
 
 ##  Methodology & ETL Architecture
 
-![ETL Pipeline Diagram](docs/classicbook_etl_diagram.png)
+This pipeline follows a modular DAG-style architecture consisting of seven sequential tasks (T1–T7), reflecting the canonical **Extract → Transform → Load** pattern, with a final query/reporting stage.
 
-**1. Extract**
+Although currently executed via CLI or manually, the design anticipates automation and orchestration (e.g., using Airflow) by separating concerns and defining task dependencies clearly.
 
-- Scraped the Latin text from *The Latin Library*
-- Scraped the English text from *Christian Classics Ethereal Library*
-- Stored raw texts in plain `.txt` files, preserving natural paragraph breaks
+```
+               EXTRACT
+              =========
+T1: extract_english.py   ───┐
+                            ├──▶ T3: create_template.py
+T2: extract_latin.py     ───┘
 
-**2. Transform**
+              TRANSFORM (Part 1)
+              ==================
+T3: create_template.py ──▶ T4: MANUAL ALIGNMENT AND SAVING
+                                     │
+                                     ▼
+              TRANSFORM (Part 2)
+              ==================
+                           T5: clean_book.py
+                                     │
+                                     ▼
+                           T6: enrich_book.py
 
-- Created a template for manual alignment, using `generate_latin_alignment_csv.py`
-- Manually aligned each book by paragraph (over 650 matches) using a structured TSV template.
-- Saved bilingual TSV files, 4 in total, one per book.
-- Automated cleaning using `clean_imitation.py`
-- Got a `imitation_cleaned.tsv`ready to load into PostgreSQL
+                   LOAD
+                 ========
+                           T7: load_book.py
+                                     │
+                                     ▼
+               QUERY (Post-Load)
+              ============================
+                          Sample SQL Queries
+```
+**Extract**
 
-**3. Load**
+This stage includes two parallel tasks:
 
-- Designed PostgreSQL schema 
-- Loaded cleaned bilingual `imitation_cleaned.tsv` composed of 9 columns
+- **T1 – `extract_english.py`**: Scrapes English text from the *Christian Classics Ethereal Library*.
+- **T2 – `extract_latin.py`**: Scrapes Latin text from *The Latin Library*.
+
+Each task outputs a raw `.txt` file (one per language).
+
+**Transform**
+
+This stage is divided into two phases:
+
+- **Transform Part 1**:
+  - **T3 – `create_template.py`**: Generates a template to assist with bilingual alignment.
+  - **T4 – Manual Alignment**: The user manually aligns Latin and English texts side by side using the template, then saves the result.
+
+- **Transform Part 2**:
+  - **T5 – `clean_book.py`**: Cleans and formats the aligned text, ensuring consistency and removing noise.
+  - **T6 – `enrich_book.py`**: Adds derived fields such as word count and paragraph number.
+
+**Load**
+
+- **T7 – `load_book.py`**: Loads the final, cleaned and enriched bilingual dataset into a PostgreSQL database.
+
+**Query (Post-Load)**
+
+A set of predefined SQL queries runs automatically after loading, generating reports and insights—e.g., most frequent Latin words, alignment integrity checks, etc.
 
 ---
 
