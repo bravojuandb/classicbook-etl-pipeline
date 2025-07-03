@@ -26,7 +26,7 @@
 
 ## Executive Summary
 
-- An end-to-end ETL pipeline that scrapes, cleans, and aligns Latin and English versions of the spirituañ classic book *The Imitation of Christ*, storing the final dataset in a PostgreSQL database.
+This ETL project processes The Imitation of Christ (15th c.) by extracting Latin and English texts from HTML sources, cleaning them, and aligning them paragraph by paragraph. The final output is a structured table ready for analysis or loading into SQL. It combines data engineering techniques with classical scholarship.
 
 ---
 
