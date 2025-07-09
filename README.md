@@ -1,6 +1,6 @@
 # Classic Book ETL Pipeline — *The Imitation of Christ*
 
-# Word Frequency Pipeline
+HTML extranction, manual alignment of Latin and English texts, transformation, loading to PostgreSQL and analysis.
 
 [![Refactoring](https://img.shields.io/badge/Refactoring-in_progress-orange)](#)
 
@@ -26,7 +26,7 @@
 
 ## Executive Summary
 
-This ETL project processes The Imitation of Christ (15th c.) by extracting Latin and English texts from HTML sources, cleaning them, and aligning them paragraph by paragraph. The final output is a structured table ready for analysis or loading into SQL. It combines data engineering techniques with classical scholarship.
+This ETL project processes The Imitation of Christ (15th c.) by extracting Latin and English texts from HTML sources, cleaning them, and aligning them paragraph by paragraph. The final output is a structured table ready for loading into SQL and analysis. It combines data engineering techniques with classical scholarship.
 
 ---
 
@@ -42,7 +42,7 @@ Most classic spiritual texts are available in multiple languages, but rarely are
 
 ## Data Structure & Raw Input
 
-Info bout the book structure.
+Info bout the book structure. Granearl description of raw books, aspects to be cleaned.
 
 ---
 
