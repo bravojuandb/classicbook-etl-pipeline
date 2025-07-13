@@ -14,48 +14,42 @@ Usage:
         python extract/extract_english.py
 """
 
+# Import internal module
+from src.config import ENGLISH_URL, ENGLISH_RAW_FILE, RAW_DATA_DIR
 import requests
 from bs4 import BeautifulSoup
 from pathlib import Path
 import os
 import warnings
+import logging
 
-# Define the URL of the Gutenberg HTML version
-URL = "https://www.gutenberg.org/cache/epub/1653/pg1653-images.html"
-
-# Set up project paths (with fallback to default if no environment variable is set)
-default_root = Path.home() / "GitHubRepos" / "classicbook-etl-pipeline"
-PROJECT_ROOT = Path(os.getenv("PROJECT_ROOT", default_root))
-
-# Define the raw_data directory and final output file path
-RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
-OUTPUT_FILE = RAW_DATA_DIR / "english_kempis.txt"
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 # Ensure the raw_data directory exists
+
 def ensure_folder_exists(path: Path):
     """
     Checks if the specified folder exists. If not, it creates it.
-    This ensures we never run into file-saving issues later.
     """
     if not path.exists():
         path.mkdir(parents=True)
-        print(f"Folder created: {path}")
+        logging.info(f"Folder created: {path}")
     else:
-        print(f"Folder already exists: {path}")
+        logging.info(f"Folder already exists: {path}")
 
 # Fetch HTML content
 
 def fetch_html(url):
     """
     Sends a GET request to the specified URL and returns the HTML content.
-    If the request fails (non-200 status), it raises an exception.
+    If the request fails, it raises an exception.
     """
-    print(f"Fetching HTML content from: {url}")
-
+    logging.info(f"Fetching HTML content from: {url}")
 
     # This bypasses SSL verification for Gutenberg request
-
-    import warnings
     warnings.filterwarnings("ignore")  # Suppress the SSL warning
     response = requests.get(url, verify=False)
     
@@ -64,7 +58,7 @@ def fetch_html(url):
     if response.status_code != 200:
         raise Exception(f"Failed to fetch page (status {response.status_code})")
 
-    print("HTML successfully fetched.")
+    logging.info("HTML successfully fetched.")
     return response.text
 
 # Extract clean paragraphs
@@ -81,7 +75,7 @@ def extract_text_from_html(html):
     if not body:
         raise Exception("Body tag not found in HTML.")
     
-    print("Extracting meaningful text from HTML...")
+    logging.info("Extracting meaningful text from HTML...")
 
     text_parts = []
     for tag in body.find_all(["p","h1","h2","h3"]):
@@ -92,7 +86,8 @@ def extract_text_from_html(html):
 
         text_parts.append(text)
 
-    print(f"Extracted {len(text_parts)} paragraphs.")
+    logging.info(f"Extracted {len(text_parts)} paragraphs.")
+
     return text_parts
 
 # Save content to .txt file
@@ -105,15 +100,16 @@ def save_to_file(paragraphs, output_path):
     with output_path.open("w", encoding="utf-8") as f:
         for paragraph in paragraphs:
             f.write(paragraph + "\n")
-    print(f"Saved {len(paragraphs)} paragraphs to {output_path}")
+    logging.info(f"Saved {len(paragraphs)} paragraphs to {output_path}")
 
-# Main ETL workflow
+
+# Main workflow
 
 def main():
     ensure_folder_exists(RAW_DATA_DIR)
-    html = fetch_html(URL)
+    html = fetch_html(ENGLISH_URL)
     paragraphs = extract_text_from_html(html)
-    save_to_file(paragraphs, OUTPUT_FILE)
+    save_to_file(paragraphs, ENGLISH_RAW_FILE)
 
 # Run the script
 
