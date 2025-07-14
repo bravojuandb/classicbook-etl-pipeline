@@ -1,7 +1,8 @@
 """
 General configuration file for the ETL pipeline.
 
-Defines project paths, output locations, and data source URLs used across scripts.
+By default, paths are rooted in the current working directory (project root),
+but you can override this by setting the PROJECT_ROOT environment variable.
 """
 
 from pathlib import Path
@@ -11,8 +12,7 @@ import os
 # PROJECT ROOT
 # --------------------------------------------------
 
-default_root = Path.home() / "GitHubRepos" / "classicbook-etl-pipeline"
-PROJECT_ROOT = Path(os.getenv("PROJECT_ROOT", default_root))
+PROJECT_ROOT = Path(os.getenv("PROJECT_ROOT", Path.cwd())).resolve()
 
 # --------------------------------------------------
 # RAW DATA DIRECTORY
