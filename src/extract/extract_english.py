@@ -1,26 +1,23 @@
 """
-extract_english.py
-
-This script downloads the English version of *The Imitation of Christ* from Project Gutenberg,
+Downloads the English version of *The Imitation of Christ* from Project Gutenberg,
 extracts the main text content, and saves it as one paragraph per line in:
-    raw_data/english_kempis.txt
+raw_data/raw_english_kempis.txt
 
 - Source: https://www.gutenberg.org/cache/epub/1653/pg1653-images.html
 - Total extracted paragraphs: 903
 - Output format: Plain text, UTF-8 encoded
 
 Usage:
-    Run this script from the project root with:
-        python extract/extract_english.py
+        python src.extract.extract_english
+
 """
 
-# Import internal module
+
 from src.config import ENGLISH_URL, ENGLISH_RAW_FILE, RAW_DATA_DIR
+
 import requests
 from bs4 import BeautifulSoup
 from pathlib import Path
-import os
-import warnings
 import logging
 
 logging.basicConfig(
@@ -49,15 +46,17 @@ def fetch_html(url):
     """
     logging.info(f"Fetching HTML content from: {url}")
 
-    # This bypasses SSL verification for Gutenberg request
-    warnings.filterwarnings("ignore")  # Suppress the SSL warning
-    response = requests.get(url, verify=False)
-    
+    try:
+        response = requests.get(url, timeout=10)  # Default with SSL verification
+        response.raise_for_status()
+    except requests.exceptions.SSLError:
+        logging.warning("SSL verification failed. Retrying without SSL verification...")
+        response = requests.get(url, verify=False, timeout=10)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        raise Exception(f"Failed to fetch page: {e}")
+
     response.encoding = "utf-8"
-
-    if response.status_code != 200:
-        raise Exception(f"Failed to fetch page (status {response.status_code})")
-
     logging.info("HTML successfully fetched.")
     return response.text
 
