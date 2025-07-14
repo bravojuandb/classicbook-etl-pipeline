@@ -8,7 +8,7 @@ raw_data/raw_english_kempis.txt
 - Output format: Plain text, UTF-8 encoded
 
 Usage:
-        python src.extract.extract_english
+        python -m src.extract.extract_english
 
 """
 
@@ -31,11 +31,15 @@ def ensure_folder_exists(path: Path):
     """
     Checks if the specified folder exists. If not, it creates it.
     """
-    if not path.exists():
-        path.mkdir(parents=True)
-        logging.info(f"Folder created: {path}")
-    else:
-        logging.info(f"Folder already exists: {path}")
+    try:
+        if not path.exists():
+            path.mkdir(parents=True)
+            logging.info(f"Folder created: {path}")
+        else:
+            logging.info(f"Folder already exists: {path}")
+    except Exception as e:
+        logging.error(f"Failed to create folder {path}:{e}", exc_info=True)
+        raise
 
 # Fetch HTML content
 
@@ -96,19 +100,27 @@ def save_to_file(paragraphs, output_path):
     Saves a list of text paragraphs to a file, one paragraph per line.
     Ensures UTF-8 encoding for compatibility.
     """
-    with output_path.open("w", encoding="utf-8") as f:
-        for paragraph in paragraphs:
-            f.write(paragraph + "\n")
-    logging.info(f"Saved {len(paragraphs)} paragraphs to {output_path}")
+    try:
+        with output_path.open("w", encoding="utf-8") as f:
+            for paragraph in paragraphs:
+                f.write(paragraph + "\n")
+        logging.info(f"Saved {len(paragraphs)} paragraphs to {output_path}")
+    except Exception as e:
+        logging.error(f"Failed to save file to {output_path}: {e}", exc_info=True)
 
 
 # Main workflow
 
 def main():
-    ensure_folder_exists(RAW_DATA_DIR)
-    html = fetch_html(ENGLISH_URL)
-    paragraphs = extract_text_from_html(html)
-    save_to_file(paragraphs, ENGLISH_RAW_FILE)
+
+    try:
+        ensure_folder_exists(RAW_DATA_DIR)
+        html = fetch_html(ENGLISH_URL)
+        paragraphs = extract_text_from_html(html)
+        save_to_file(paragraphs, ENGLISH_RAW_FILE)
+    
+    except Exception as e:
+        logging.error(f"An eror occurres during execution: {e}", exc_info=True)
 
 # Run the script
 
