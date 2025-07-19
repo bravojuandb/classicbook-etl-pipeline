@@ -5,3 +5,4 @@ venv/
 archives/
 __pycache__
 raw_english_kempis.txt
+.pytest_cache
