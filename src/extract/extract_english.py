@@ -1,11 +1,13 @@
 """
-Downloads the English version of *The Imitation of Christ* from Project Gutenberg,
-extracts the main text content, and saves it as one paragraph per line in:
+Extracts the English version of the book 
+The Imitation of Christ from Project Gutenberg,
+and saves it as one paragraph per line in:
+
 raw_data/raw_english_kempis.txt
 
 - Source: https://www.gutenberg.org/cache/epub/1653/pg1653-images.html
-- Total extracted paragraphs: 903
 - Output format: Plain text, UTF-8 encoded
+- Designed for use in text analytics task.
 
 Usage:
         python -m src.extract.extract_english
@@ -29,7 +31,19 @@ logging.basicConfig(
 
 def ensure_folder_exists(path: Path):
     """
-    Checks if the specified folder exists. If not, it creates it.
+    Ensures that the specified directory exists.
+
+    Creates the directory and any necessary parent directories if they do not already exist.
+    Logs the creation event or confirms if the directory already exists.
+
+    Args:
+        path (Path): A pathlib.Path object representing the target directory path.
+
+    Returns:
+        None
+
+    Raises:
+        Exception: If directory creation fails due to permission issues or other I/O errors.
     """
     try:
         if not path.exists():
@@ -43,10 +57,15 @@ def ensure_folder_exists(path: Path):
 
 # Fetch HTML content
 
-def fetch_html(url):
+def fetch_html(url:str) -> str:
     """
-    Sends a GET request to the specified URL and returns the HTML content.
-    If the request fails, it raises an exception.
+    Fetches the HTML content of the given URL with fallback for SSL errors.
+    Args:
+        url (str): The URL to fetch
+    Returns:
+        str: The HTML content as a UTF-8 encoded string
+    Raises:
+        Exception: If the HTTP request fails
     """
     logging.info(f"Fetching HTML content from: {url}")
 
@@ -66,11 +85,14 @@ def fetch_html(url):
 
 # Extract clean paragraphs
 
-def extract_text_from_html(html):
+def extract_text_from_html(html: str) -> list[str]:
     """
-    Parses the HTML content using BeautifulSoup, finds the <body> tag,
-    and extracts text from <p>, <h1>, <h2>, and <h3> tags.
-    Filters out irrelevant lines like Gutenberg boilerplate.
+    Parses HTML content and extracts clean text from p, h1, h2 and h3 tags.
+    Filters out boilerplate content such as Gutenberg notices and decorative markers.
+    Args:
+        html (str): The full HTML content
+    Returns:
+        List[str]: A list of cleaned paragraph strings
     """
     soup = BeautifulSoup(html, "html.parser")
     body = soup.find("body")
@@ -95,10 +117,19 @@ def extract_text_from_html(html):
 
 # Save content to .txt file
 
-def save_to_file(paragraphs, output_path):
+def save_to_file(paragraphs: list, output_path: Path):
     """
-    Saves a list of text paragraphs to a file, one paragraph per line.
-    Ensures UTF-8 encoding for compatibility.
+    Writes a list of text paragraphs to a file, one paragraph per line.
+
+    Each paragraph is written on a separate line using UTF-8 encoding to ensure
+    compatibility across systems and languages.
+
+    Args:
+        paragraphs (List[str]): A list of cleaned text paragraphs to write.
+        output_path (Path): A pathlib.Path object representing the output file location.
+
+    Raises:
+        Exception: If the file cannot be written to the specified path.
     """
     try:
         with output_path.open("w", encoding="utf-8") as f:
@@ -125,5 +156,6 @@ def main():
 # Run the script
 
 if __name__ == "__main__":
+    logging.info("Starting extraction process...")
     main()
 
