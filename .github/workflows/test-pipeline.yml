@@ -1,4 +1,4 @@
-name: Test Full Pipeline (extrac_english)
+name: Test Full Pipeline
 
 on:
   push:
