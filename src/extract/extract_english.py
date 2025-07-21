@@ -15,7 +15,7 @@ Usage:
 """
 
 
-from config import ENGLISH_URL, ENGLISH_RAW_FILE, RAW_DATA_DIR
+from src.config import ENGLISH_URL, ENGLISH_RAW_FILE, RAW_DATA_DIR
 
 import requests
 from bs4 import BeautifulSoup
