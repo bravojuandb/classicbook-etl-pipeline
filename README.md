@@ -1,6 +1,10 @@
 # Classic Book ETL Pipeline — *The Imitation of Christ*
 
-HTML extranction, manual alignment of Latin and English texts, transformation, loading to PostgreSQL and analysis.
+HTML extraction, manual alignment of Latin and English texts, transformation, loading to PostgreSQL and analysis.
+
+## CI Status
+![Test Full Pipeline](https://github.com/bravojuandb/classicbook-etl-pipeline/actions/workflows/test-pipeline.yml/badge.svg)
+
 
 [![Refactoring](https://img.shields.io/badge/Refactoring-in_progress-orange)](#)
 
