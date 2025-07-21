@@ -1,15 +1,10 @@
 name: Test Full Pipeline
 
 on:
-  push:
-    paths:
-      - '**.py'
-      - 'tests/**'
-      - '.github/workflows/test-pipeline.yml'
   pull_request:
-    paths:
-      - '**.py'
-      - 'tests/**'
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   test-pipeline:
