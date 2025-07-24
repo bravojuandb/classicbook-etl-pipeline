@@ -22,13 +22,16 @@ RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)  # Create if missing
 
 # --------------------------------------------------
-# OUTPUT FILE FOR ENGLISH TEXT
+# OUTPUT FILE AND SOURCE FOR ENGLISH TEXT EXTRACTION
 # --------------------------------------------------
 
 ENGLISH_RAW_FILE = RAW_DATA_DIR / "raw_english_kempis.txt"
-
-# --------------------------------------------------
-# SOURCE URL FOR ENGLISH TEXT
-# --------------------------------------------------
-
 ENGLISH_URL = "https://www.gutenberg.org/cache/epub/1653/pg1653-images.html"
+
+# --------------------------------------------------
+# OUTPUT FILE AND SOURCE FOR LATIN TEXT EXTRACTION
+# --------------------------------------------------
+
+LATIN_RAW_FILE = RAW_DATA_DIR / "raw_latin_kempis.txt"
+BASE_LATIN_URL = "https://www.thelatinlibrary.com"
+LATIN_URL = f"{BASE_LATIN_URL}/kempis.html"
