@@ -33,5 +33,5 @@ ENGLISH_URL = "https://www.gutenberg.org/cache/epub/1653/pg1653-images.html"
 # --------------------------------------------------
 
 LATIN_RAW_FILE = RAW_DATA_DIR / "raw_latin_kempis.txt"
-
-LATIN_URL = "https://www.thelatinlibrary.com/kempis.html"
+BASE_LATIN_URL = "https://www.thelatinlibrary.com"
+LATIN_URL = f"{BASE_LATIN_URL}/kempis.html"
