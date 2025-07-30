@@ -1,5 +1,6 @@
 """
 Tests if HTML text is extracted correctly
+Behaves identically for extract_english.py and extract_latin.py
 """
 
 from extract.extract_english import extract_text_from_html

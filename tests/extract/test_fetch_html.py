@@ -1,4 +1,7 @@
-"""Test fetch URL"""
+"""
+Test fetch URL
+Behaves identically for extract_english.py and extract_latin.py
+"""
 
 from unittest.mock import patch, Mock
 from extract.extract_english import fetch_html

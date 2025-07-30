@@ -1,5 +1,6 @@
 """
-It creates the directory if it does not exist
+It creates the directory if it does not exist. 
+Behaves identically for extract_english.py and extract_latin.py
 """
 
 from extract.extract_english import ensure_folder_exists
