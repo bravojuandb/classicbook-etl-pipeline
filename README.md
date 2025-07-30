@@ -2,16 +2,17 @@
 
 HTML extraction, manual alignment of Latin and English texts, transformation, loading to PostgreSQL and analysis.
 
-## CI Status
+### CI Status
+
 ![Test Pipeline](https://github.com/bravojuandb/classicbook-etl-pipeline/actions/workflows/test-pipeline.yml/badge.svg)
-
-
 [![Refactoring](https://img.shields.io/badge/Refactoring-in_progress-orange)](#)
+
+### Tech Stack
 
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](#)
 [![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=fff)](#)
-![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker&logoColor=white)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-In_progress%23316192?logo=postgresql&logoColor=white)](#)
+[![Docker](https://img.shields.io/badge/Docker-blue?logo=docker&logoColor=white)](#)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%23316192?logo=postgresql&logoColor=white)](#)
 
 ---
 
@@ -100,7 +101,7 @@ This stage includes two parallel tasks:
 
 Each task outputs a raw `.txt` file (one per language).
 
-**Transform**
+**[Transform Phase](src/transform/README.md)**
 
 This stage is divided into two phases:
 
