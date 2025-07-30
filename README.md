@@ -52,7 +52,7 @@ Most classic spiritual texts are available in multiple languages, but rarely are
 
 ## Data Structure & Raw Input
 
-Info bout the book structure. Granearl description of raw books, aspects to be cleaned.
+Info bout the book structure. General description of raw books, aspects to be cleaned.
 
 ---
 
@@ -113,9 +113,48 @@ This stage is divided into two phases:
   - **T5 – `clean_book.py`**: Cleans and formats the aligned text, ensuring consistency and removing noise.
   - **T6 – `enrich_book.py`**: Adds derived fields such as word count and paragraph number.
 
-**Load**
+### Load Phase
 
 - **T7 – `load_book.py`**: Loads the final, cleaned and enriched bilingual dataset into a PostgreSQL database.
+
+
+**Data Modeling: Star Schema Design**
+
+This project uses a dimensional model optimized for text analysis. It consists of:
+
+```
+book_dim (Dimension Table)
+
+| Column              | Description                    |
+|---------------------|--------------------------------|
+| `book_id` (PK)      | Unique ID (1–4)                |
+| `book_number`       | Ordinal number of the book     |
+| `book_title_latin`  | Latin title of the book        |
+| `book_title_english`| English title of the book      |
+
+
+chapter_dim (Dimension Table)
+
+| Column                 | Description                          |
+|------------------------|--------------------------------------|
+| `chapter_id` (PK)      | Composite key (e.g. "I.3")           |
+| `book_id` (FK)         | Foreign key to `book_dim.book_id`    |
+| `chapter_number`       | Ordinal chapter number               |
+| `chapter_title_latin`  | Latin chapter title                  |
+| `chapter_title_english`| English chapter title                |
+
+
+paragraphs_fact (Fact Table)
+
+| Column            | Description                          |
+|-------------------|--------------------------------------|
+| `paragraph_id` (PK)| Unique paragraph identifier         |
+| `chapter_id` (FK) | Foreign key to `chapter_dim.chapter_id` |
+| `book_id` (FK)    | Foreign key to `book_dim.book_id`    |
+| `paragraph_number`| Paragraph sequence number in chapter |
+| `latin_text`      | Latin text of the paragraph          |
+| `english_text`    | English translation of the paragraph |
+```
 
 **Query (Post-Load)**
 
@@ -297,7 +336,7 @@ This includes:
 > *Knowledge is the ordering of things according to reason.*
 
 This project is a spiritual and intellectual labor. Manual alignment was slow, but meaningful.
- It mirrors the discipline of a data carftsman: **trust in structure, reverence for clarity, and attention to detail**.
+ It mirrors the discipline of a data craftsman: **trust in structure, reverence for clarity, and attention to detail**.
 
 ---
 
