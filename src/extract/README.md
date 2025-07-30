@@ -1,7 +1,9 @@
 # Extract Phase
 
 This phase retrieves the full text of *The Imitation of Christ* from two separate online sources — one in English and one in Latin.
+Both texts will be manually aligned, and loaded to PostgreSQL.
 
+[← Back to Main README](../../README.md)
 ---
 
 ## Sources
