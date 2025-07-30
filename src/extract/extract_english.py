@@ -153,6 +153,12 @@ def main():
     except Exception as e:
         logging.error(f"An eror occurres during execution: {e}", exc_info=True)
 
+# Defines a callable function that can be imported from run_pipeline.py
+
+def run_english_extraction():
+    logging.info(" Running English extraction...")
+    main()
+
 # Run the script
 
 if __name__ == "__main__":

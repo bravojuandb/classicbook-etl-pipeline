@@ -227,6 +227,11 @@ def main() -> None:
     except Exception as e:
         logging.error(f"An eror occurred during execution: {e}", exc_info=True)
 
+# Defines a callable function that can be imported from run_pipeline.py
+
+def run_latin_extraction():
+    logging.info(" Running Latin extraction...")
+    main()
 
 if __name__ == "__main__":
     main()
