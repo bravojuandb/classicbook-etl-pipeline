@@ -42,3 +42,10 @@ LATIN_URL = f"{BASE_LATIN_URL}/kempis.html"
 
 TEMPLATE_DIR = PROJECT_ROOT / "data"
 TEMPLATE_OUTPUT_FILE = TEMPLATE_DIR / "manual_template.csv"
+
+# --------------------------------------------------
+# OUTPUT FILE AND SOURCE FOR TRANSFORM STAGE
+# --------------------------------------------------
+
+INPUT_DIR = PROJECT_ROOT / 'data' / 'aligned'
+OUTPUT_PATH = PROJECT_ROOT / 'data' / 'cleaned' / 'imitation_cleaned.tsv'
