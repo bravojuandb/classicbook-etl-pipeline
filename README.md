@@ -84,7 +84,8 @@ T3: create_template.py ──▶ T4: MANUAL ALIGNMENT AND SAVING
               ============================
                           Sample SQL Queries
 ```
-**Extract**
+
+**[Extract Phase](src/extract/README.md)**
 
 This stage includes two parallel tasks:
 
@@ -130,17 +131,15 @@ classicbook-etl-pipeline/
 │   ├── extract/
 │   │   ├── extract_latin.py        # Extracts the Latin text
 │   │   ├── extract_english.py      # Extracts the English text
-│   │   └── README.md    
+│   │   └── README.md
 │   ├── transform/
-│   │   ├── manual_alignment.py     # Creates template for manual alignment
+│   │   ├── create_template.py     # Creates template for manual alignment
 │   │   ├── clean_imitation.py      # Cleans and enrich the CSV file
 │   │   └── README.md
-│   └── load/
-│       ├── load_to_sql.py          # Loads final CSV to sql
-│       └── README.md
-├── config/                         # Environment configs (env vars, YAML settings)
-│   ├── .env.example                # Sample .env file for secrets/paths
-│   └── config.yaml      
+│   ├── load/
+│   │   ├── load_to_sql.py          # Loads final CSV to sql
+│   │   └── README.md
+│   └── config.py                   # Central configuration module
 ├── main/
 │   ├── run_pipeline.py             # Main runner: connects E → T → L
 │   └── README.md
