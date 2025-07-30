@@ -20,20 +20,23 @@ BOOK_NAMES = {
 def word_count(text):
     return len(str(text).split())
 
-# === ENRICHMENT FUNCTION ===
-def enrich_book(df: pd.DataFrame, book_number: int) -> pd.DataFrame:
-    book_label = BOOK_NAMES[book_number]
-    df.insert(0, "book", book_label)
-    df.insert(1, "book_number", book_number)
-    df.insert(2, "chapter_number", range(1, len(df) + 1))
+# === ENRICHMENT FUNCTION: TRANSFORM TO STAR-SCHEMA FACT TABLE===
+def enrich_book_to_fact(df: pd.DataFrame, book_number: int) -> pd.DataFrame:
 
+    df["book_id"] = book_number
+    df["book"] = BOOK_NAMES[book_number]
+    df["paragraph_number"] = range(1, len(df) + 1)
+    
     roman = ["I", "II", "III", "IV"][book_number - 1]
-    df["chapter_id"] = roman + '.' + df["chapter_number"].astype(str)
-
-    df["latin_word_count"] = df["latin_text"].apply(word_count)
-    df["english_word_count"] = df["english_text"].apply(word_count)
-
-    return df
+    df["chapter_id"] = roman + "." + df["paragraph_number"].astype(str)
+    
+    return df[[
+        "book_id",
+        "chapter_id",
+        "paragraph_number",
+        "latin_text",
+        "english_text"
+    ]]
 
 # === MAIN ===
 if __name__ == "__main__":
@@ -42,7 +45,7 @@ if __name__ == "__main__":
     for book_number in range(1, 5):
         df = clean_aligned_book(book_number)
         if df is not None:
-            enriched = enrich_book(df, book_number)
+            enriched = enrich_book_to_fact (df, book_number)
             all_books.append(enriched)
 
     combined_df = pd.concat(all_books, ignore_index=True)
@@ -51,4 +54,4 @@ if __name__ == "__main__":
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     combined_df.to_csv(OUTPUT_PATH, sep='\t', index=False, encoding='utf-8')
 
-    print(f"\n✅ Clean enriched file saved to: {OUTPUT_PATH}")
+    print(f"\n✅ Star-schema-style paragraph fact table saved to: {OUTPUT_PATH}")
