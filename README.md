@@ -139,10 +139,8 @@ classicbook-etl-pipeline/
 │   ├── load/
 │   │   ├── load_to_sql.py          # Loads final CSV to sql
 │   │   └── README.md
+    ├── run_pipeline.py             # Main runner: connects E → T → L
 │   └── config.py                   # Central configuration module
-├── main/
-│   ├── run_pipeline.py             # Main runner: connects E → T → L
-│   └── README.md
 ├── tests/                          # Unit tests (pytest-compatible)
 │   ├── test_transform.py
 │   └── test_load.py
