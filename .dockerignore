@@ -1,0 +1,12 @@
+venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite
+tests
+data
+docs
+archives
+.git
