@@ -3,16 +3,18 @@
 HTML extraction, manual alignment of Latin and English texts, transformation, loading to PostgreSQL and analysis.
 
 ## CI Status
-![Test Full Pipeline](https://github.com/bravojuandb/classicbook-etl-pipeline/actions/workflows/test-pipeline.yml/badge.svg)
+![Test Pipeline](https://github.com/bravojuandb/classicbook-etl-pipeline/actions/workflows/test-pipeline.yml/badge.svg)
 
 
 [![Refactoring](https://img.shields.io/badge/Refactoring-in_progress-orange)](#)
 
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](#)
 [![Pandas](https://img.shields.io/badge/Pandas-150458?logo=pandas&logoColor=fff)](#)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%23316192?logo=postgresql&logoColor=white)](#)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker&logoColor=white)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-In_progress%23316192?logo=postgresql&logoColor=white)](#)
 
 ---
+
 
 ## Table of Contents
 - [Executive Summary](#executive-summary)
@@ -28,11 +30,13 @@ HTML extraction, manual alignment of Latin and English texts, transformation, lo
 
 ---
 
+
 ## Executive Summary
 
 This ETL project processes The Imitation of Christ (15th c.) by extracting Latin and English texts from HTML sources, cleaning them, and aligning them paragraph by paragraph. The final output is a structured table ready for loading into SQL and analysis. It combines data engineering techniques with classical scholarship.
 
 ---
+
 
 ##  Problem & Motivation
 
@@ -44,11 +48,13 @@ Most classic spiritual texts are available in multiple languages, but rarely are
 
 ---
 
+
 ## Data Structure & Raw Input
 
 Info bout the book structure. Granearl description of raw books, aspects to be cleaned.
 
 ---
+
 
 ##  Methodology & ETL Architecture
 
@@ -116,6 +122,7 @@ A set of predefined SQL queries runs automatically after loading, generating rep
 
 ---
 
+
 ## Repository Structure
 
 ```
@@ -152,24 +159,111 @@ classicbook-etl-pipeline/
 ```
 ---
 
+
 ##  Tools & Technologies
 
-- **Languages**: Python, SQL
-- **Tools**: VS Code, Git, GitHub, pgAdmin, PostgreSQL
+- **Languages**: Python, SQL, Bash
+- **Data Tools**: PostgreSQL, pgAdmin
+- **Development Tools**: VS Code, Git, GitHub, Docker
+- **Python Libraries**: pandas, requests, BeautifulSoup, pathlib, logging
+- **Other**: GitHub Codespaces (optional), Markdown, CLI workflows
 
 ---
 
+
 ## Setup & Execution
 
-Write...
+How to Run the Extract Phase.
+
+> Disclaimer:The full pipeline is under active refactoring. However, the Extract Phase is complete and fully Dockerized.
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/juan-dbravo/classicbook-etl-pipeline.git
+cd classicbook-etl-pipeline
+```
+
+### 2. Option A — Run Locally (Python)
+
+#### Requirements
+
+- Python 3.10+
+- `venv` (recommended)
+- Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+#### Run the extract phase:
+
+```bash
+python -m src.run_pipeline
+```
+
+This will:
+- Extract the English version of *The Imitation of Christ* from Project Gutenberg
+- Scrape the Latin version from The Latin Library
+- Save both as `.txt` files into `data/raw/`
+
+```text
+data/raw/
+├── raw_english_kempis.txt
+└── raw_latin_kempis.txt
+```
+
+---
+
+### 3. Option B — Run with Docker
+
+#### Build the image
+
+From the root of the repo:
+
+```bash
+docker build -t classicbook-extract .
+```
+
+#### Run the container
+
+**For macOS/Linux:**
+
+```bash
+docker run --rm \
+  -v "$HOME/classicbook_output:/app/data" \
+  classicbook-extract
+```
+
+**For Windows (PowerShell):**
+
+```powershell
+docker run --rm `
+  -v "${HOME}\classicbook_output:/app/data" `
+  classicbook-extract
+```
+
+**For Windows (CMD):**
+
+```cmd
+docker run --rm -v %USERPROFILE%\classicbook_output:/app/data classicbook-extract
+```
+
+This saves the raw files to your desktop (or wherever you choose):
+
+```text
+~/classicbook_output/raw/
+├── raw_english_kempis.txt
+└── raw_latin_kempis.txt
+```
+
+> 💡 You can change the `-v` path to any local directory.
 
 ---
 
 ## Results & Sample Insights
 
-Rewrite....
-
-This project creates a **clean, bilingual, paragraph-aligned dataset** of *The Imitation of Christ* in Latin and English — stored in a SQL database and fully queryable — to support:
+This project aims to create an improved **clean, bilingual, paragraph-aligned dataset** of *The Imitation of Christ* in Latin and English — stored in a SQL database and fully queryable — to support:
 
 - **Semantic lookup**: Find the Latin equivalent of an English passage, and vice versa
 - **Translation analysis**: Explore how Latin words and themes are rendered in context
@@ -184,9 +278,6 @@ Once the data is loaded, it becomes a powerful tool for:
 - Exploring paragraph frequency, length, and structure across books
 - Generating dynamic flashcards and quizzes from the text
 
-The goal of this ETL pipeline has been achieved. The data is fully aligned, loaded into PostgreSQL, and now queryable.
-
-You can explore the final SQL schema, queries, and analysis in:
 
 [`sql/sample_queries.md`](./sql/sample_queries.md)
 
@@ -204,18 +295,23 @@ This includes:
 > “Scientia est ordinatio rerum in ratione.”  
 > *Knowledge is the ordering of things according to reason.*
 
-This project was more than an academic or technical exercise — it was a spiritual and intellectual labor. Manual alignment was slow, but meaningful. It mirrors the discipline of a data engineer: **trust in structure, reverence for clarity, and devotion to detail**.
+This project is a spiritual and intellectual labor. Manual alignment was slow, but meaningful.
+ It mirrors the discipline of a data carftsman: **trust in structure, reverence for clarity, and attention to detail**.
 
 ---
 
 ## Appendix & Resources
 
-- Sources
-- Short article about the Book Itself
+### Sources:
 
+- **English text**: [Project Gutenberg](https://www.gutenberg.org/cache/epub/1653/pg1653-images.html)  
+- **Latin text**: [The Latin Library](https://www.thelatinlibrary.com/kempis.html)
+
+- **[Short article about the Book Itself](https://en.wikipedia.org/wiki/The_Imitation_of_Christ)**
 ---
 
-**Juan David Bravo**  
+**Juan David Bravo** 
+
 Aspiring Data Engineer with a background in classical languages and philosophy.  
 Bridging ancient texts with modern data pipelines.
 
