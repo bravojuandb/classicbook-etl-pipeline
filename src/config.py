@@ -35,3 +35,17 @@ ENGLISH_URL = "https://www.gutenberg.org/cache/epub/1653/pg1653-images.html"
 LATIN_RAW_FILE = RAW_DATA_DIR / "raw_latin_kempis.txt"
 BASE_LATIN_URL = "https://www.thelatinlibrary.com"
 LATIN_URL = f"{BASE_LATIN_URL}/kempis.html"
+
+# --------------------------------------------------
+# ALIGNMENT TEMPLATE PATH (for manual Latin-English alignment)
+# --------------------------------------------------
+
+TEMPLATE_DIR = PROJECT_ROOT / "data"
+TEMPLATE_OUTPUT_FILE = TEMPLATE_DIR / "manual_template.csv"
+
+# --------------------------------------------------
+# OUTPUT FILE AND SOURCE FOR TRANSFORM STAGE
+# --------------------------------------------------
+
+INPUT_DIR = PROJECT_ROOT / 'data' / 'aligned'
+OUTPUT_PATH = PROJECT_ROOT / 'data' / 'cleaned' / 'imitation_cleaned.tsv'
