@@ -52,7 +52,20 @@ Most classic spiritual texts are available in multiple languages, but rarely are
 
 ## Data Structure & Raw Input
 
-Info bout the book structure. General description of raw books, aspects to be cleaned.
+### Structure of *The Imitation of Christ*
+
+*The Imitation of Christ* is divided into **four books**, each focusing on a key aspect of the Christian spiritual life:
+
+- **Book I** – *Admonitions Useful for the Spiritual Life* (25 chapters)  
+- **Book II** – *Directives for the Interior Life* (12 chapters)  
+- **Book III** – *On Interior Consolation* (59 chapters)  
+- **Book IV** – *On the Blessed Sacrament* (18 chapters)
+
+Each book is composed of **chapters**, which are further divided into **short, numbered paragraphs**. 
+
+The **manual alignment task** [T4](#methodology--etl-architecture) is carried out at this level. In fact, this is a core part of the process: enabling accurate, meaningful comparison between individual Latin and English paragraphs.
+
+This structure — **Book → Chapter → Paragraph** — makes the text ideal for meditation, personal reading, or systematic study. That clarity is precisely why I chose this book for my ETL project.
 
 ---
 
@@ -61,7 +74,6 @@ Info bout the book structure. General description of raw books, aspects to be cl
 
 This pipeline follows a modular DAG-style architecture consisting of seven sequential tasks (T1–T7), reflecting the canonical **Extract → Transform → Load** pattern, with a final query/reporting stage.
 
-Although currently executed via CLI or manually, the design anticipates automation and orchestration (e.g., using Airflow) by separating concerns and defining task dependencies clearly.
 
 ```
                EXTRACT
@@ -186,11 +198,9 @@ classicbook-etl-pipeline/
 │   ├── load/
 │   │   ├── load_to_sql.py          # Loads final CSV to sql
 │   │   └── README.md
-    ├── run_pipeline.py             # Main runner: connects E → T → L
+│   ├── run_pipeline.py             # Main runner: connects E → T → L
 │   └── config.py                   # Central configuration module
 ├── tests/                          # Unit tests (pytest-compatible)
-│   ├── test_transform.py
-│   └── test_load.py
 ├── Dockerfile
 ├── requirements.txt                # Python dependencies
 ├── .gitignore
@@ -206,7 +216,6 @@ classicbook-etl-pipeline/
 - **Data Tools**: PostgreSQL, pgAdmin
 - **Development Tools**: VS Code, Git, GitHub, Docker
 - **Python Libraries**: pandas, requests, BeautifulSoup, pathlib, logging
-- **Other**: GitHub Codespaces (optional), Markdown, CLI workflows
 
 ---
 
@@ -275,14 +284,6 @@ docker run --rm \
   classicbook-extract
 ```
 
-**For Windows (PowerShell):**
-
-```powershell
-docker run --rm `
-  -v "${HOME}\classicbook_output:/app/data" `
-  classicbook-extract
-```
-
 **For Windows (CMD):**
 
 ```cmd
@@ -297,7 +298,7 @@ This saves the raw files to your desktop (or wherever you choose):
 └── raw_latin_kempis.txt
 ```
 
-> 💡 You can change the `-v` path to any local directory.
+> You can change the `-v` path to any local directory.
 
 ---
 
@@ -336,7 +337,7 @@ This includes:
 > *Knowledge is the ordering of things according to reason.*
 
 This project is a spiritual and intellectual labor. Manual alignment was slow, but meaningful.
- It mirrors the discipline of a data craftsman: **trust in structure, reverence for clarity, and attention to detail**.
+It mirrors the discipline of a data craftsman: **trust in structure, reverence for clarity, and attention to detail**.
 
 ---
 
