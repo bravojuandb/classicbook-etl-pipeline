@@ -319,7 +319,7 @@ Once the data is loaded, it becomes a powerful tool for:
 - Generating dynamic flashcards and quizzes from the text
 
 
-[`sql/sample_queries.md`](./sql/sample_queries.md)
+[**Sample Queries from Pre-refactored Version**](/archives/sql/sample_queries.md)
 
 This includes:
 
