@@ -4,6 +4,4 @@ venv/
 *checkpoint*.md
 archives/
 __pycache__
-raw_english_kempis.txt
 .pytest_cache
-raw_latin_kempis.txt
